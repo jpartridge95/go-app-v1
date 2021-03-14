@@ -15,7 +15,7 @@ func ConnectionOpen() *sql.DB {
 	PASSWORD := environment.GetVar("password")
 	PORT := environment.GetVar("port")
 
-	db, err := sql.Open("mysql", USERNAME+":"+PASSWORD+"@tcp("+PORT+")/test")
+	db, err := sql.Open("mysql", USERNAME+":"+PASSWORD+"@tcp("+PORT+")/GoAppV1")
 
 	if err != nil {
 		log.Fatal(err)

@@ -56,3 +56,10 @@ type Review struct {
 	FullReview  string  `json:"fullReview"`
 	ProfileID   string  `json:"createdBy"`
 }
+
+type ReviewSummary struct {
+	ProductName string `json:"productName"`
+	Picture     []byte `json:"productImage"`
+	Score       int32  `json:"score"`
+	ProfileID   string `json:"createdBy"`
+}
