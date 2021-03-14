@@ -12,10 +12,10 @@ Good right? I hope so
 
 # TODO
 
+[X] Create SQL DB to interact with initially
 [] Add basic CRUD Functionality to Review API
 [] Add Users and accounts API
 [] Write test files
-[] Create SQL DB to store all info in persistent memory
 [] Implement GORM
 [] Create Front End
 [] Deploy
