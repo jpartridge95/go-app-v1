@@ -24,7 +24,7 @@ func Start() {
 	// These Handlers deal with Reviews and can be found in ./handlers/review-handlers.go
 
 	r.HandleFunc("/reviews/all", handlers.AllReviewsSummary).Methods("GET")
-	r.HandleFunc("/reviews/one", handlers.OneReview).Methods("GET")
+	r.HandleFunc("/reviews/byid/{id}", handlers.OneReview).Methods("GET")
 	r.HandleFunc("/reviews/create", handlers.PostReview).Methods("POST")
 	r.HandleFunc("/reviews/update", handlers.EditReview).Methods("PUT")
 	r.HandleFunc("/reviews/delete", handlers.DeleteReview).Methods("DELETE")

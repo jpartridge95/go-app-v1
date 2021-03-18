@@ -48,18 +48,20 @@ type Account struct {
 }
 
 type Review struct {
+	ReviewID    int64   `json:"reviewID"`
 	ProductName string  `json:"productName"`
 	Picture     []byte  `json:"productImage"`
 	Score       int32   `json:"score"`
 	BoughtFrom  string  `json:"locationBought"`
 	BoughtFor   float32 `json:"pricePaid"`
 	FullReview  string  `json:"fullReview"`
-	ProfileID   string  `json:"createdBy"`
+	ProfileID   int64   `json:"createdBy"`
 }
 
 type ReviewSummary struct {
+	ReviewID    int64  `json:"reviewID"`
 	ProductName string `json:"productName"`
 	Picture     []byte `json:"productImage"`
 	Score       int32  `json:"score"`
-	ProfileID   string `json:"createdBy"`
+	ProfileID   int64  `json:"createdBy"`
 }
