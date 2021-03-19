@@ -26,8 +26,9 @@ func Start() {
 	r.HandleFunc("/reviews/all", handlers.AllReviewsSummary).Methods("GET")
 	r.HandleFunc("/reviews/byid/{id}", handlers.OneReview).Methods("GET")
 	r.HandleFunc("/reviews/create", handlers.PostReview).Methods("POST")
-	r.HandleFunc("/reviews/update", handlers.EditReview).Methods("PUT")
-	r.HandleFunc("/reviews/delete", handlers.DeleteReview).Methods("DELETE")
+	r.HandleFunc("/reviews/updatereview/{id}", handlers.EditReview).Methods("PUT")
+	r.HandleFunc("/reviews/updatescore/{id}", handlers.EditReviewScore).Methods("PUT")
+	r.HandleFunc("/reviews/delete/{id}", handlers.DeleteReview).Methods("DELETE")
 
 	// Handlers to deal with users
 

@@ -65,3 +65,11 @@ type ReviewSummary struct {
 	Score       int32  `json:"score"`
 	ProfileID   int64  `json:"createdBy"`
 }
+
+type EditReview struct {
+	FullReview string `json:"fullReview"`
+}
+
+type EditScore struct {
+	Score int32 `json:"score"`
+}

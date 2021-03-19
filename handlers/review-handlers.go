@@ -157,7 +157,42 @@ func PostReview(w http.ResponseWriter, r *http.Request) {
 
 // Self explanatory, Only available to the post's author
 func EditReview(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprint(w, "Edit Review Endpoint Hit")
+
+	db := database.ConnectionOpen()
+	defer database.ConnectionClose(db)
+
+	vars := mux.Vars(r)
+	id := vars["id"]
+
+	var result model.EditReview
+
+	json.NewDecoder(r.Body).Decode(&result)
+
+	editedReview := model.EditReview{
+		FullReview: result.FullReview,
+	}
+
+	_, err := db.Query(
+		`UPDATE
+			reviews
+		SET
+			fullreview = ?
+		WHERE
+			reviewid = ?`,
+		editedReview.FullReview,
+		id,
+	)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	fmt.Fprint(w, "Review text successfully changed")
+}
+
+// Separate func to change score, also only available to post author
+
+func EditReviewScore(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprintf(w, "Update Score endpoint hit")
 }
 
 // Self explanatory again, must be only deletable by either a moderator or the author
