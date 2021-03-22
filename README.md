@@ -10,12 +10,16 @@ My only goal is to have a functioning full review site with all revies from all 
 
 Good right? I hope so
 
+Project log - 16/03/2021: Explained to a friend what I was doing and he replied "so... Like yelp?"
+                I forgot that what I'm doing already exists...
+
+Project log - 22/03/2021: This has quickly become a very large project for what is effectively a yelp clone.
+
 # TODO
 
 [X] Create SQL DB to interact with initially
-[] Add basic CRUD Functionality to Review API
+[X] Add basic CRUD Functionality to Review API
 [] Add Users and accounts API
-[] Write test files
-[] Implement GORM
 [] Create Front End
+[] Write test files
 [] Deploy

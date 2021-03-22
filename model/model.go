@@ -1,61 +1,90 @@
 package model
 
-// Currently effectively an empty file, this is
-// at the minute, bloat.
+/*
+ALL STRUCTS HERE CURRENTLY ARE USED FOR DB INTERACTION
 
-// however these structs will be used extensively to interact
-// with a mySQL database
+if you came here from another file looking for a model it will be here,
+bookmarks are in place to somewhat break this uninteresting file up
+
+Contents:
+	1. Profile Modelling
+		(used for publicly visible info,
+			username, age and city)
+	2. Account modelling
+		(used for any security sensitive info,
+			emails, passwords, security q's etc.)
+	3. Review Modelling
+		(used for anything review related,
+			what, where, how much, etc.)
+
+*/
 
 /*
-	There will need to be 1/2/3 or more GORMs to interact with databases
-	As not all info will be relevant for each request
-
-	Work as so: Stringify => Concat => Encode response body
-
-	Example
-		FULL REVIEW GORM
-		Profile fields taken from foreign key info
-		All review info, read all in structs below.
-
-		SHORT REVIEW GORM
-		UserName
-		Object
-		Picture
-		Score
-
-	These will simply be used to map data easily into the desired
-	formats with directly relevant information.
-
-	Few ideas, we'll see...
+--------------------------------------------------------------------
+----------------------- 1. Profiles --------------------------------
+--------------------------------------------------------------------
 */
 
 type Profile struct {
-	UserName string `json:"userName"`
-	Age      int32  `json:"age"`
-	City     string `json:"city"`
+	UserName  string `json:"userName"`
+	Age       int32  `json:"age"`
+	City      string `json:"city"`
+	Accountid int64  `json:"accountid"`
 }
 
+/*
+--------------------------------------------------------------------
+----------------------- 2. Accounts --------------------------------
+--------------------------------------------------------------------
+*/
+
 type Account struct {
+	AccountID        int64  `json:"accountid"`
 	FirstName        string `json:"firstName"`
-	Lastname         string `json:"lastName"`
+	LastName         string `json:"lastName"`
 	Email            string `json:"email"`
 	Password         string `json:"password"`
 	PhoneNumber      string `json:"phoneNumber"`
 	DateOfBirth      string `json:"dateOfBirth"`
 	SecurityQuestion string `json:"securityQuestion"`
 	SecurityAnswer   string `json:"securityAnswer"`
-	ProfileID        string `json:"linkedProfile"`
 }
 
+type AccountSummary struct {
+	AccountID   int64  `json:"accountid"`
+	FirstName   string `json:"FirstName"`
+	LastName    string `json:"LastName"`
+	Email       string `json:"Email"`
+	DateOfBirth string `json:"DateOfBirth"`
+}
+
+type AccountChange struct {
+	AccountID        int64  `json:"accountid"`
+	FirstName        string `json:"firstName"`
+	LastName         string `json:"lastName"`
+	Email            string `json:"email"`
+	PhoneNumber      string `json:"phoneNumber"`
+	DateOfBirth      string `json:"dateOfBirth"`
+	SecurityQuestion string `json:"securityQuestion"`
+}
+
+/*
+--------------------------------------------------------------------
+----------------------- 3. Reviews ---------------------------------
+--------------------------------------------------------------------
+*/
+
 type Review struct {
-	ReviewID    int64   `json:"reviewID"`
-	ProductName string  `json:"productName"`
-	Picture     []byte  `json:"productImage"`
-	Score       int32   `json:"score"`
-	BoughtFrom  string  `json:"locationBought"`
-	BoughtFor   float32 `json:"pricePaid"`
-	FullReview  string  `json:"fullReview"`
-	ProfileID   int64   `json:"createdBy"`
+	ReviewID       int64   `json:"reviewID"`
+	ProductName    string  `json:"productName"`
+	Picture        []byte  `json:"productImage"`
+	Score          int32   `json:"score"`
+	BoughtFrom     string  `json:"locationBought"`
+	BoughtFromLat  float64 `json:"boughtFromLat"`
+	BoughtFromLong float64 `json:"boughtFromLong"`
+	BoughtFor      float32 `json:"pricePaid"`
+	FullReview     string  `json:"fullReview"`
+	ProfileID      int64   `json:"createdBy"`
 }
 
 type ReviewSummary struct {

@@ -14,7 +14,7 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 )
 
-// Unnecessary endpoint here
+// Unnecessary endpoint here to be cleaned up in a refactor
 func Home(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprint(w, "you have reached the homepage")
 }
@@ -71,6 +71,8 @@ func OneReview(w http.ResponseWriter, r *http.Request) {
 		picture, 
 		score,
 		boughtfrom,
+		boughtfromlat,
+		boughtfromlong,
 		boughtfor,
 		fullreview,
 		personID
@@ -83,6 +85,8 @@ func OneReview(w http.ResponseWriter, r *http.Request) {
 		&query.Picture,
 		&query.Score,
 		&query.BoughtFrom,
+		&query.BoughtFromLat,
+		&query.BoughtFromLong,
 		&query.BoughtFor,
 		&query.FullReview,
 		&query.ProfileID,
@@ -192,10 +196,56 @@ func EditReview(w http.ResponseWriter, r *http.Request) {
 // Separate func to change score, also only available to post author
 
 func EditReviewScore(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "Update Score endpoint hit")
+	db := database.ConnectionOpen()
+	defer database.ConnectionClose(db)
+
+	vars := mux.Vars(r)
+	id := vars["id"]
+
+	var result model.EditScore
+
+	json.NewDecoder(r.Body).Decode(&result)
+
+	editedReview := model.EditScore{
+		Score: result.Score,
+	}
+
+	_, err := db.Query(
+		`UPDATE
+			reviews
+		SET
+			score = ?
+		WHERE
+			reviewid = ?`,
+		editedReview.Score,
+		id,
+	)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	fmt.Fprint(w, "Review score successfully changed")
 }
 
 // Self explanatory again, must be only deletable by either a moderator or the author
 func DeleteReview(w http.ResponseWriter, r *http.Request) {
+	db := database.ConnectionOpen()
+	defer database.ConnectionClose(db)
+
+	vars := mux.Vars(r)
+	id := vars["id"]
+
+	_, err := db.Query(`
+		DELETE FROM
+			reviews
+		WHERE
+			reviewid = ?`,
+		id,
+	)
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
 	fmt.Fprint(w, "Delete Review Endpoint Hit")
 }

@@ -17,7 +17,7 @@ func Start() {
 	fmt.Printf("Application Start")
 	r := mux.NewRouter().StrictSlash(true)
 
-	// Homepage
+	// Homepage probably going to be gone soon, we see
 
 	r.HandleFunc("/", handlers.Home).Methods("GET")
 
@@ -30,13 +30,21 @@ func Start() {
 	r.HandleFunc("/reviews/updatescore/{id}", handlers.EditReviewScore).Methods("PUT")
 	r.HandleFunc("/reviews/delete/{id}", handlers.DeleteReview).Methods("DELETE")
 
-	// Handlers to deal with users
+	// Handlers to deal with accounts
 
-	r.HandleFunc("/users/all", handlers.GetAllUsers).Methods("GET")
-	r.HandleFunc("/users/one", handlers.GetOneUser).Methods("GET")
-	r.HandleFunc("/users/create", handlers.CreateUser).Methods("POST")
-	r.HandleFunc("/users/update", handlers.UpdateUserDetails).Methods("PUT")
-	r.HandleFunc("/users/delete", handlers.DeleteUser).Methods("DELETE")
+	r.HandleFunc("/users/all", handlers.GetAllAccounts).Methods("GET")
+	r.HandleFunc("/users/byid/{id}", handlers.GetOneAccount).Methods("GET")
+	r.HandleFunc("/users/create", handlers.CreateAccount).Methods("POST")
+	r.HandleFunc("/users/update/{id}", handlers.UpdateAccountDetails).Methods("PUT")
+	r.HandleFunc("/users/delete", handlers.DeleteAccount).Methods("DELETE")
+
+	// Handlers to deal with Profiles
+
+	r.HandleFunc("/profiles/all", handlers.GetAllProfiles).Methods("GET")
+	r.HandleFunc("/profiles/one", handlers.GetOneProfile).Methods("GET")
+	r.HandleFunc("/profiles/create", handlers.CreateProfile).Methods("POST")
+	r.HandleFunc("/profiles/update", handlers.UpdateProfileDetails).Methods("PUT")
+	r.HandleFunc("/profiles/delete", handlers.DeleteProfile).Methods("DELETE")
 
 	// Start the webserver
 
