@@ -34,9 +34,5 @@ Project log - 18/04/2021: I have taken a break from this project to review and r
 [] Create Front End
 
 [] Write test files
-<<<<<<< HEAD
 
 [] Deploy
-=======
-[] Deploy
->>>>>>> 1f1ad375eec575358ca44be1ef3af32650702bf1

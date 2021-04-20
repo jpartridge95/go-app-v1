@@ -1,4 +1,4 @@
-package helper
+package helper // Should make a new helper to set response headers
 
 import "github.com/jpartridge95/go-app-v1/model"
 
@@ -33,6 +33,25 @@ func Replacer(old model.AccountChange, new *model.AccountChange) model.AccountCh
 
 	if new.SecurityQuestion == "" {
 		*secQ = old.SecurityQuestion
+	}
+
+	return *new
+}
+
+func ProfileReplacer(old model.Profile, new *model.Profile) model.Profile {
+	username := &new.UserName
+	age := &new.Age
+	city := &new.City
+	accountID := old.Accountid
+
+	if new.UserName == "" {
+		*username = old.UserName
+	}
+	if new.Age == 0 {
+		*age = old.Age
+	}
+	if new.City == "" {
+		*city = old.City
 	}
 
 	return *new

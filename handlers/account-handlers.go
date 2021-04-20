@@ -249,7 +249,7 @@ func Login(w http.ResponseWriter, r *http.Request) {
 
 	// do simple auth, return profile json.
 
-	fmt.Fprintf(w, "Oh, you're trying to login are you?")
+	fmt.Fprintf(w, "Oh, you're trying to log in are you?")
 }
 
 func DeleteAccount(w http.ResponseWriter, r *http.Request) {

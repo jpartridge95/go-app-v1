@@ -42,10 +42,10 @@ func Start() {
 	// Handlers to deal with Profiles
 
 	r.HandleFunc("/profiles/all", handlers.GetAllProfiles).Methods("GET")
-	r.HandleFunc("/profiles/one", handlers.GetOneProfile).Methods("GET")
+	r.HandleFunc("/profiles/byid/{id}", handlers.GetOneProfile).Methods("GET")
 	r.HandleFunc("/profiles/create", handlers.CreateProfile).Methods("POST")
-	r.HandleFunc("/profiles/update", handlers.UpdateProfileDetails).Methods("PUT")
-	r.HandleFunc("/profiles/delete", handlers.DeleteProfile).Methods("DELETE")
+	r.HandleFunc("/profiles/update/{id}", handlers.UpdateProfileDetails).Methods("PUT")
+	r.HandleFunc("/profiles/delete/{id}", handlers.DeleteProfile).Methods("DELETE")
 
 	// Start the webserver
 
