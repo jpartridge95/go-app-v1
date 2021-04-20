@@ -36,7 +36,8 @@ func Start() {
 	r.HandleFunc("/users/byid/{id}", handlers.GetOneAccount).Methods("GET")
 	r.HandleFunc("/users/create", handlers.CreateAccount).Methods("POST")
 	r.HandleFunc("/users/update/{id}", handlers.UpdateAccountDetails).Methods("PUT")
-	r.HandleFunc("/users/delete", handlers.DeleteAccount).Methods("DELETE")
+	r.HandleFunc("/users/delete/{id}", handlers.DeleteAccount).Methods("DELETE")
+	// Needed - Password changer, secA changer, and Login func
 
 	// Handlers to deal with Profiles
 

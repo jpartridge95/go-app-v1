@@ -68,6 +68,11 @@ type AccountChange struct {
 	SecurityQuestion string `json:"securityQuestion"`
 }
 
+type Login struct {
+	Email    string `json:"email"`
+	Password string `json:"password"`
+}
+
 /*
 --------------------------------------------------------------------
 ----------------------- 3. Reviews ---------------------------------

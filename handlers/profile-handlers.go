@@ -18,6 +18,10 @@ func UpdateProfileDetails(w http.ResponseWriter, r *http.Request) {
 }
 
 func CreateProfile(w http.ResponseWriter, r *http.Request) {
+	// At some point the accounts and profiles tables need to be linked,
+	// in hindsight they should never have been split.
+	// However looking forward if querying this table leads to err
+	// make a redirect to this func, wooooo!!!
 	fmt.Fprint(w, "Create User Endpoint hit")
 }
 

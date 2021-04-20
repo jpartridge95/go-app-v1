@@ -37,3 +37,6 @@ func Replacer(old model.AccountChange, new *model.AccountChange) model.AccountCh
 
 	return *new
 }
+
+// potential for an iknterface, If I find myself making more of these methods
+// I will be creating an inteface for these methods

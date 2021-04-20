@@ -18,8 +18,22 @@ Project log - 22/03/2021: This has quickly become a very large project for what 
 # TODO
 
 [X] Create SQL DB to interact with initially
+
 [X] Add basic CRUD Functionality to Review API
+
+{
+    {
+        {
+            So theres quite a big leap
+            here 😒
+        }
+    }
+}
+
 [] Add Users and accounts API
+
 [] Create Front End
+
 [] Write test files
+
 [] Deploy

@@ -121,6 +121,9 @@ func CreateAccount(w http.ResponseWriter, r *http.Request) {
 
 	json.NewDecoder(r.Body).Decode(&account)
 
+	// Passwords will be hashed client-side, possible for
+	// me to hash serverside, but cannot guarantee HTTPS
+
 	newEntry := model.Account{
 		FirstName:        account.FirstName,
 		LastName:         account.LastName,
@@ -238,9 +241,30 @@ func ChangeSecurityAnswer(w http.ResponseWriter, r *http.Request) {
 
 func Login(w http.ResponseWriter, r *http.Request) {
 	// check credentials and return profile response, then can use profile response to write reviews
+	db := database.ConnectionOpen()
+	defer database.ConnectionClose(db)
+
+	// var credentials model.Login
+	// var password string
+
+	// do simple auth, return profile json.
+
 	fmt.Fprintf(w, "Oh, you're trying to login are you?")
 }
 
 func DeleteAccount(w http.ResponseWriter, r *http.Request) {
+
+	db := database.ConnectionOpen()
+	defer database.ConnectionClose(db)
+
+	vars := mux.Vars(r)
+	id := vars["id"]
+
+	_, err := db.Query(`DELETE FROM accounts WHERE accountid = ?`, id)
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
 	fmt.Fprint(w, "Delete user endpoint hit")
 }
