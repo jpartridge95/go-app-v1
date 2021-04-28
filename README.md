@@ -6,13 +6,6 @@ My only goal is to have a functioning full review site with all revies from all 
 
 Good right? I hope so
 
-Project log - 16/03/2021: Explained to a friend what I was doing and he replied "so... Like yelp?"
-                I forgot that what I'm doing already exists...
-
-Project log - 22/03/2021: This has quickly become a very large project for what is effectively a yelp clone.
-
-Project log - 18/04/2021: I have taken a break from this project to review and restyle my Portfolio website. This will be done by 20/04/2021 (hopefully)
-                          at which point progress will resume on this project.
 
 # TODO
 
@@ -36,3 +29,19 @@ Project log - 18/04/2021: I have taken a break from this project to review and r
 [] Write test files
 
 [] Deploy
+
+
+# Project Log
+
+16/03/2021: Explained to a friend what I was doing and he replied "so... Like yelp?"
+                I forgot that what I'm doing already exists...
+
+
+22/03/2021: This has quickly become a very large project for what is effectively a yelp clone.
+
+
+18/04/2021: I have taken a break from this project to review and restyle my Portfolio website. This will be done by 20/04/2021 (hopefully). at which point progress will resume on this project.
+
+22/04/2021: Progress Resumed on 20/04, 90% of planned endpoints have now been completed as a result
+work has begun on the front end, the front end is hosted in a seperate repo, so check there for 
+progress.

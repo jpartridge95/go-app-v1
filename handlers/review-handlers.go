@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"strconv"
 
 	"github.com/gorilla/mux"
 	"github.com/jpartridge95/go-app-v1/database"
@@ -15,9 +16,9 @@ import (
 )
 
 // Unnecessary endpoint here to be cleaned up in a refactor
-func Home(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprint(w, "you have reached the homepage")
-}
+// func Preflight(w http.ResponseWriter, r *http.Request) {
+// 	fmt.Fprint(w, "you have reached the homepage")
+// }
 
 // Will be used on a "review feed"
 func AllReviewsSummary(w http.ResponseWriter, r *http.Request) {
@@ -74,6 +75,7 @@ func OneReview(w http.ResponseWriter, r *http.Request) {
 		boughtfromlat,
 		boughtfromlong,
 		boughtfor,
+		currency,
 		fullreview,
 		personID
 	FROM
@@ -88,6 +90,7 @@ func OneReview(w http.ResponseWriter, r *http.Request) {
 		&query.BoughtFromLat,
 		&query.BoughtFromLong,
 		&query.BoughtFor,
+		&query.Currency,
 		&query.FullReview,
 		&query.ProfileID,
 	)
@@ -96,14 +99,17 @@ func OneReview(w http.ResponseWriter, r *http.Request) {
 	}
 
 	QueryResult := model.Review{
-		ReviewID:    query.ReviewID,
-		ProductName: query.ProductName,
-		Picture:     query.Picture,
-		Score:       query.Score,
-		BoughtFrom:  query.BoughtFrom,
-		BoughtFor:   query.BoughtFor,
-		FullReview:  query.FullReview,
-		ProfileID:   query.ProfileID,
+		ReviewID:       query.ReviewID,
+		ProductName:    query.ProductName,
+		Picture:        query.Picture,
+		Score:          query.Score,
+		BoughtFrom:     query.BoughtFrom,
+		BoughtFromLat:  query.BoughtFromLat,
+		BoughtFromLong: query.BoughtFromLong,
+		BoughtFor:      query.BoughtFor,
+		Currency:       query.Currency,
+		FullReview:     query.FullReview,
+		ProfileID:      query.ProfileID,
 	}
 
 	w.Header().Set("Content-Type", "application/json")
@@ -116,45 +122,99 @@ func PostReview(w http.ResponseWriter, r *http.Request) {
 	db := database.ConnectionOpen()
 	defer database.ConnectionClose(db)
 
-	var review model.Review
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Content-Type", "multipart/form-data; boundary='boundary'")
 
-	json.NewDecoder(r.Body).Decode(&review)
+	r.ParseMultipartForm(32 << 20)
 
-	newEntry := model.Review{
-		ProductName: review.ProductName,
-		Picture:     review.Picture,
-		Score:       review.Score,
-		BoughtFrom:  review.BoughtFrom,
-		BoughtFor:   review.BoughtFor,
-		FullReview:  review.FullReview,
-		ProfileID:   review.ProfileID,
+	data := r.MultipartForm
+
+	keyVals := data.Value
+
+	score, err := strconv.ParseInt(keyVals["score"][0], 10, 64)
+
+	if err != nil {
+		http.Error(w, err.Error(), 500)
+		return
 	}
 
-	insert, err := db.Query(`INSERT INTO 
-		reviews ( 
-			productName, 
-			picture, 
+	latitude, err := strconv.ParseFloat(keyVals["boughtFromLat"][0], 64)
+
+	if err != nil {
+		http.Error(w, err.Error(), 500)
+		return
+	}
+
+	longitude, err := strconv.ParseFloat(keyVals["boughtFromLong"][0], 64)
+
+	if err != nil {
+		http.Error(w, err.Error(), 500)
+		return
+	}
+
+	price, err := strconv.ParseFloat(keyVals["pricePaid"][0], 32)
+
+	if err != nil {
+		http.Error(w, err.Error(), 500)
+		return
+	}
+
+	id, err := strconv.ParseInt(keyVals["createdBy"][0], 10, 64)
+
+	if err != nil {
+		http.Error(w, err.Error(), 500)
+		return
+	}
+
+	newEntry := model.Review{
+		ProductName:    keyVals["productName"][0],
+		Picture:        keyVals["productImage"][0],
+		Score:          score,
+		BoughtFrom:     keyVals["locationBought"][0],
+		BoughtFromLat:  latitude,
+		BoughtFromLong: longitude,
+		BoughtFor:      float32(price),
+		Currency:       keyVals["currency"][0],
+		FullReview:     keyVals["fullReview"][0],
+		ProfileID:      id,
+	}
+
+	insert, err := db.Prepare(`INSERT INTO
+		reviews (
+			productName,
+			picture,
 			score,
 			boughtfrom,
+			boughtfromlat,
+			boughtfromlong,
 			boughtfor,
+			currency,
 			fullreview,
 			personID
 		)
-		VALUES (?, ?, ?, ?, ?, ?, ?)`,
+		VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`)
+
+	if err != nil {
+		http.Error(w, err.Error(), 500)
+		return
+	}
+
+	res, err := insert.Exec(
 		newEntry.ProductName,
 		newEntry.Picture,
 		newEntry.Score,
 		newEntry.BoughtFrom,
+		newEntry.BoughtFromLat,
+		newEntry.BoughtFromLong,
 		newEntry.BoughtFor,
+		newEntry.Currency,
 		newEntry.FullReview,
 		newEntry.ProfileID,
 	)
 
-	if err != nil {
-		log.Fatal(err)
-	}
+	lastID, err := res.LastInsertId()
 
-	fmt.Fprint(w, "New review for "+newEntry.ProductName+" created")
+	fmt.Fprintf(w, "%d", lastID)
 
 	insert.Close()
 }

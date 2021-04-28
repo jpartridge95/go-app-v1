@@ -19,7 +19,7 @@ func Start() {
 
 	// Homepage probably going to be gone soon, we see
 
-	r.HandleFunc("/", handlers.Home).Methods("GET")
+	r.HandleFunc("/", handlers.Preflight).Methods("OPTIONS")
 
 	// These Handlers deal with Reviews and can be found in ./handlers/review-handlers.go
 

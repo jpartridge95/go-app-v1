@@ -42,7 +42,7 @@ func ProfileReplacer(old model.Profile, new *model.Profile) model.Profile {
 	username := &new.UserName
 	age := &new.Age
 	city := &new.City
-	accountID := old.Accountid
+	accountID := &new.Accountid
 
 	if new.UserName == "" {
 		*username = old.UserName
@@ -53,6 +53,8 @@ func ProfileReplacer(old model.Profile, new *model.Profile) model.Profile {
 	if new.City == "" {
 		*city = old.City
 	}
+
+	*accountID = old.Accountid
 
 	return *new
 }

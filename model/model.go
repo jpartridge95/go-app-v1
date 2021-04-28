@@ -82,15 +82,32 @@ type Login struct {
 type Review struct {
 	ReviewID       int64   `json:"reviewID"`
 	ProductName    string  `json:"productName"`
-	Picture        []byte  `json:"productImage"`
-	Score          int32   `json:"score"`
+	Picture        string  `json:"productImage"`
+	Score          int64   `json:"score"`
 	BoughtFrom     string  `json:"locationBought"`
 	BoughtFromLat  float64 `json:"boughtFromLat"`
 	BoughtFromLong float64 `json:"boughtFromLong"`
 	BoughtFor      float32 `json:"pricePaid"`
+	Currency       string  `json:"currency"`
 	FullReview     string  `json:"fullReview"`
 	ProfileID      int64   `json:"createdBy"`
 }
+
+// type ParsedReview struct {
+// 	ReviewID       int64  `json:"reviewID"`
+// 	ProductName    string `json:"productName"`
+// 	Picture        []byte `json:"productImage"`
+// 	Score          string `json:"score"`
+// 	BoughtFrom     string `json:"locationBought"`
+// 	BoughtFromLat  string `json:"boughtFromLat"`
+// 	BoughtFromLong string `json:"boughtFromLong"`
+// 	BoughtFor      string `json:"pricePaid"`
+// 	Currency       string `json:"currency"`
+// 	FullReview     string `json:"fullReview"`
+// 	ProfileID      string `json:"createdBy"`
+// }
+
+// ^^ Not currently needed ^^
 
 type ReviewSummary struct {
 	ReviewID    int64  `json:"reviewID"`
